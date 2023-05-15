@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--주소록의 주소를 보여주는 리스트뷰의 폼으로 사용되는 xml-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/NameItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/AgeItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NameItem"
+        android:layout_alignRight="@+id/NameItem"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/TelItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="30dp" />
+    <TextView
+        android:id="@+id/JobItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/TelItem"
+        android:textSize="20dp" />
+</RelativeLayout>

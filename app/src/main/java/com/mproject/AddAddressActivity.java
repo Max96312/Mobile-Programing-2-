@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,16 @@ import android.widget.EditText;
 public class AddAddressActivity extends AppCompatActivity {
     private EditText etName,etAge,etTel,etJob;
     private Button btn_insert,btn_list;
+    private AddressInfo addressInfo;
+
+    public void insertData(){
+        DataBaseHelper dbHelper = new DataBaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db.execSQL("INSERT INTO address(name,age,tel,job) VALUES("+"'"+addressInfo.getName()+"','"+addressInfo.getAge()+"','"+addressInfo.getPhone()+"','"+addressInfo.getJob()+"')");
+        dbHelper.close();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTitle("주소록");
@@ -48,13 +59,13 @@ public class AddAddressActivity extends AppCompatActivity {
                     showDialog("직업을 입력하세요~");
                 }
                 else{
-                    //테이터 저장 +DB 연동할때 사용할 듯
-                    /*AddressInfo addressInfo = new AddressInfo();
+
+                    addressInfo = new AddressInfo();
                     addressInfo.setName(name);
                     addressInfo.setAge(age);
                     addressInfo.setPhone(phone);
-                    addressInfo.setJob(job);*/
-
+                    addressInfo.setJob(job);
+                    insertData();
                     //화면 전환
                     Intent intent = new Intent(AddAddressActivity.this, MainActivity.class);
                     startActivity(intent);

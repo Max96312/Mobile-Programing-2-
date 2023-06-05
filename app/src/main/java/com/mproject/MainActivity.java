@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +32,26 @@ public class MainActivity extends AppCompatActivity {
    private Button btn_add;
    private EditText c_name,c_age,c_tel,c_job;
    private View dialogView;
-   private AddressInfo add;
+   private AddressInfo addressInfo;
    private ArrayList<AddressInfo> alist;
    private CustomAdapter adapter;
 
+    public void getData(){
+        DataBaseHelper dbHelper = new DataBaseHelper(this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        Cursor cursor = db.rawQuery("SELECT * FROM address",null);
+        while(cursor.moveToNext()){
+            addressInfo = new AddressInfo();
+            addressInfo.setName(cursor.getString(1));
+            addressInfo.setAge(cursor.getString(2));
+            addressInfo.setPhone(cursor.getString(3));
+            addressInfo.setJob(cursor.getString(4));
+            alist.add(addressInfo);
+        }
+        cursor.close();
+        dbHelper.close();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +59,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_list);
         setTitle("주소록");
 
-        add = new AddressInfo();//기능 확인시 아래 4줄 주석 해제
-        /*add.setName("김동현");
-        add.setAge("23");
-        add.setPhone("010-5555-5555");
-        add.setJob("학생");*/
-        //기능을 확인하기 위해 임시로 넣은 데이터
+
+
 
 
 
         alist = new ArrayList<AddressInfo>();
-        alist.add(add);
+        getData();
         addList = (ListView) findViewById(R.id.listview);
         btn_add = (Button) findViewById(R.id.btn_add);
 
@@ -84,6 +97,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 
     //메뉴
